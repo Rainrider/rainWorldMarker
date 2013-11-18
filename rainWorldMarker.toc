@@ -1,0 +1,8 @@
+## Interface: 50400
+## Title: rain|cff0099ccWorldMarker|r
+## Notes: Lets you place or hide the world markers
+## Author: Rainrider
+## Version: 1.0
+## X-Credids: Nibelheim
+
+rainWorldMarker.lua
