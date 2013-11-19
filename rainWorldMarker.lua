@@ -107,8 +107,12 @@ local CreateButtons = function()
 			button:SetAttribute("macrotext1", "/wm " .. index)
 			button:SetAttribute("macrotext2", "/cwm " .. index)
 		else
-			button:SetAttribute("type", "macro")
-			button:SetAttribute("macrotext", "/cwm all")
+			button:SetAttribute("type1", "macro")
+			button:SetAttribute("type2", "macro")
+			button:SetAttribute("ctrl-type1", "macro")
+			button:SetAttribute("macrotext1", "/cwm all")
+			button:SetAttribute("macrotext2", "/readycheck")
+			button:SetAttribute("ctrl-macrotext1", "/run InitiateRolePoll()")
 		end
 
 		button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
