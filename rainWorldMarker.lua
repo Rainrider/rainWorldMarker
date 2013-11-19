@@ -27,11 +27,25 @@ local Holder = CreateFrame("Frame", nil, Minimap)
 Holder:SetScript("OnEvent", function(self, event, ...) self[event](self, event, ...) end)
 
 local OnEnter = function(self)
-	 self.bg:SetWidth(buttonWidthExpanded)
+	self.bg:SetWidth(buttonWidthExpanded)
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+	GameTooltip:SetText("rain|cff0099ccWorldMarker|r")
+	if self.id == 6 then
+		GameTooltip:AddLine("|cff00FF00Left-Click|r to remove all world markers", 1, 1, 1, true)
+		if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
+			GameTooltip:AddLine("|cff00FF00Right-Click|r to issue a ready check", 1, 1, 1, true)
+			GameTooltip:AddLine("|cff00FF00Ctrl-Click|r to issue a role check", 1, 1, 1, true)
+		end
+	else
+		GameTooltip:AddLine("|cff00FF00Left-Click|r to place the world marker", 1, 1, 1, true)
+		GameTooltip:AddLine("|cff00FF00Right-Click|r to remove the world marker", 1, 1, 1, true)
+	end
+	GameTooltip:Show()
 end
 
 local OnLeave = function(self)
-	 self.bg:SetWidth(buttonWidthCollapsed)
+	self.bg:SetWidth(buttonWidthCollapsed)
+	GameTooltip:Hide()
 end
 
 local UpdateVisibility = function()
@@ -122,6 +136,8 @@ local CreateButtons = function()
 
 		button.bg = button:CreateTexture(nil, "BACKGROUND")
 		button.bg:SetTexture(unpack(markerColors[index]))
+
+		button.id = index
 
 		Holder[index] = button
 	end
