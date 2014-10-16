@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: rain|cff0099ccWorldMarker|r
 ## Notes: Lets you place or hide the world markers
 ## Author: Rainrider
