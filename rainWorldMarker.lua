@@ -1,5 +1,5 @@
-
 local NUM_WORLD_RAID_MARKERS = NUM_WORLD_RAID_MARKERS
+local WORLD_RAID_MARKER_ORDER = WORLD_RAID_MARKER_ORDER
 
 local showIn = {
 	pvp = nil,
@@ -117,7 +117,8 @@ local CreateButtons = function()
 		return
 	end
 
-	for index = 1, NUM_WORLD_RAID_MARKERS + 1 do
+	for i = 1, NUM_WORLD_RAID_MARKERS + 1 do
+		local index = WORLD_RAID_MARKER_ORDER[i] or NUM_WORLD_RAID_MARKERS + 1
 		local button = CreateFrame("Button", nil, Holder, "SecureActionButtonTemplate")
 
 		if index ~= NUM_WORLD_RAID_MARKERS + 1 then
@@ -142,9 +143,9 @@ local CreateButtons = function()
 		button.bg = button:CreateTexture(nil, "BACKGROUND")
 		button.bg:SetTexture(unpack(markerColors[index]))
 
-		button.id = index
+		button.id = i
 
-		Holder[index] = button
+		Holder[i] = button
 	end
 
 	buttonsCreated = true
