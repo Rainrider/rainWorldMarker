@@ -34,16 +34,17 @@ Holder:SetScript("OnEvent", function(self, event, ...) self[event](self, event, 
 local OnEnter = function(self)
 	self.bg:SetWidth(buttonWidthExpanded)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
-	GameTooltip:SetText("rain|cff0099ccWorldMarker|r")
 	if self.id == NUM_WORLD_RAID_MARKERS + 1 then
+		GameTooltip:SetText("rain|cff0099ccWorldMarker|r")
 		GameTooltip:AddLine("|cff00FF00Left-Click|r to remove all world markers", 1, 1, 1, true)
 		if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 			GameTooltip:AddLine("|cff00FF00Right-Click|r to issue a ready check", 1, 1, 1, true)
 			GameTooltip:AddLine("|cff00FF00Ctrl-Click|r to issue a role check", 1, 1, 1, true)
 		end
 	else
-		GameTooltip:AddLine("|cff00FF00Left-Click|r to place the world marker", 1, 1, 1, true)
-		GameTooltip:AddLine("|cff00FF00Right-Click|r to remove the world marker", 1, 1, 1, true)
+		GameTooltip:SetText(_G["WORLD_MARKER"..WORLD_RAID_MARKER_ORDER[self.id]])
+		GameTooltip:AddLine("|cff00FF00Left-Click|r to place", 1, 1, 1, true)
+		GameTooltip:AddLine("|cff00FF00Right-Click|r to remove", 1, 1, 1, true)
 	end
 	GameTooltip:Show()
 end
