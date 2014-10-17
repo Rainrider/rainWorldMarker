@@ -43,7 +43,9 @@ local OnEnter = function(self)
 	GameTooltip:AddLine("|cff00FF00Ctrl-Right-Click|r to remove all", 1, 1, 1, true)
 	if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 		GameTooltip:AddLine("|cff00FF00Ctrl-Click|r to issue a ready check", 1, 1, 1, true)
-		GameTooltip:AddLine("|cff00FF00Shift-Click|r to issue a role poll", 1, 1, 1, true)
+		if not HasLFGRestrictions() then
+			GameTooltip:AddLine("|cff00FF00Shift-Click|r to issue a role poll", 1, 1, 1, true)
+		end
 	end
 	GameTooltip:Show()
 end
