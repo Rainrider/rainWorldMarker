@@ -1,4 +1,6 @@
 
+local NUM_WORLD_RAID_MARKERS = NUM_WORLD_RAID_MARKERS
+
 local showIn = {
 	pvp = nil,
 	arena = nil,
@@ -13,7 +15,10 @@ local markerColors = {
 	[3] = {1.0, 0.2, 1.0, 0.8}, -- purple
 	[4] = {1.0, 0.2, 0.2, 0.8}, -- red
 	[5] = {1.0, 1.0, 0.2, 0.8}, -- yellow
-	[6] = {0.7, 0.7, 0.7, 0.8}, -- grey
+	[6] = {255/255, 127/255, 63/255, 0.8}, -- orange
+	[7] = {170/255, 170/255, 221/255, 0.8}, -- silver
+	[8] = {1, 1, 1, 0.8}, -- white
+	[9] = {0.7, 0.7, 0.7, 0.8}, -- grey
 }
 
 local buttonWidthCollapsed = 3
@@ -30,7 +35,7 @@ local OnEnter = function(self)
 	self.bg:SetWidth(buttonWidthExpanded)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
 	GameTooltip:SetText("rain|cff0099ccWorldMarker|r")
-	if self.id == 6 then
+	if self.id == NUM_WORLD_RAID_MARKERS + 1 then
 		GameTooltip:AddLine("|cff00FF00Left-Click|r to remove all world markers", 1, 1, 1, true)
 		if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 			GameTooltip:AddLine("|cff00FF00Right-Click|r to issue a ready check", 1, 1, 1, true)
@@ -84,12 +89,12 @@ local UpdatePositions = function()
 	end
 
 	local minimapHeight = Minimap:GetHeight()
-	local buttonHeight = minimapHeight / 6
+	local buttonHeight = minimapHeight / (NUM_WORLD_RAID_MARKERS + 1)
 
 	Holder:SetPoint("RIGHT", Minimap, "LEFT")
 	Holder:SetSize(buttonWidthExpanded, minimapHeight)
 
-	for index = 1, 6 do
+	for index = 1, NUM_WORLD_RAID_MARKERS + 1 do
 		local button = Holder[index]
 		button:SetPoint("TOPRIGHT", Holder, "TOPRIGHT", 0, (index - 1) * -buttonHeight)
 		button:SetSize(buttonWidthExpanded, buttonHeight)
@@ -112,10 +117,10 @@ local CreateButtons = function()
 		return
 	end
 
-	for index = 1, 6 do
+	for index = 1, NUM_WORLD_RAID_MARKERS + 1 do
 		local button = CreateFrame("Button", nil, Holder, "SecureActionButtonTemplate")
 
-		if index ~= 6 then
+		if index ~= NUM_WORLD_RAID_MARKERS + 1 then
 			button:SetAttribute("type1", "macro")
 			button:SetAttribute("type2", "macro")
 			button:SetAttribute("macrotext1", "/wm " .. index)
