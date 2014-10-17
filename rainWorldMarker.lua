@@ -9,17 +9,20 @@ local showIn = {
 	scenario = true,
 }
 
-local markerColors = {
-	[1] = {0.2, 0.2, 1.0, 0.8}, -- blue
-	[2] = {0.2, 0.9, 0.2, 0.8}, -- green
-	[3] = {1.0, 0.2, 1.0, 0.8}, -- purple
-	[4] = {1.0, 0.2, 0.2, 0.8}, -- red
-	[5] = {1.0, 1.0, 0.2, 0.8}, -- yellow
-	[6] = {255/255, 127/255, 63/255, 0.8}, -- orange
-	[7] = {170/255, 170/255, 221/255, 0.8}, -- silver
-	[8] = {1, 1, 1, 0.8}, -- white
-	[9] = {0.7, 0.7, 0.7, 0.8}, -- grey
-}
+local HexToRGB = function(hexColor)
+	return tonumber("0x"..hexColor:sub(1,2)) / 255, tonumber("0x"..hexColor:sub(3,4)) / 255, tonumber("0x"..hexColor:sub(5,6)) / 255
+end
+
+local markerColors = {}
+do
+	for i = 1, NUM_WORLD_RAID_MARKERS do
+		local text = _G["WORLD_MARKER"..i]
+		local hexColor = string.match(text, "|cff(......)")
+		local r, g, b = HexToRGB(hexColor)
+		markerColors[i] = {r, g, b, 0.8}
+	end
+	markerColors[9] = {0.7, 0.7, 0.7, 0.8}
+end
 
 local buttonWidthCollapsed = 3
 local buttonWidthExpanded = 10
