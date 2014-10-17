@@ -37,17 +37,13 @@ Holder:SetScript("OnEvent", function(self, event, ...) self[event](self, event, 
 local OnEnter = function(self)
 	self.bg:SetWidth(buttonWidthExpanded)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
-	if self.id == NUM_WORLD_RAID_MARKERS + 1 then
-		GameTooltip:SetText("rain|cff0099ccWorldMarker|r")
-		GameTooltip:AddLine("|cff00FF00Left-Click|r to remove all world markers", 1, 1, 1, true)
-		if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
-			GameTooltip:AddLine("|cff00FF00Right-Click|r to issue a ready check", 1, 1, 1, true)
-			GameTooltip:AddLine("|cff00FF00Ctrl-Click|r to issue a role check", 1, 1, 1, true)
-		end
-	else
-		GameTooltip:SetText(_G["WORLD_MARKER"..WORLD_RAID_MARKER_ORDER[self.id]])
-		GameTooltip:AddLine("|cff00FF00Left-Click|r to place", 1, 1, 1, true)
-		GameTooltip:AddLine("|cff00FF00Right-Click|r to remove", 1, 1, 1, true)
+	GameTooltip:SetText(_G["WORLD_MARKER"..WORLD_RAID_MARKER_ORDER[self.id]])
+	GameTooltip:AddLine("|cff00FF00Left-Click|r to place", 1, 1, 1, true)
+	GameTooltip:AddLine("|cff00FF00Right-Click|r to remove", 1, 1, 1, true)
+	GameTooltip:AddLine("|cff00FF00Ctrl-Right-Click|r to remove all", 1, 1, 1, true)
+	if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
+		GameTooltip:AddLine("|cff00FF00Ctrl-Click|r to issue a ready check", 1, 1, 1, true)
+		GameTooltip:AddLine("|cff00FF00Shift-Click|r to issue a role poll", 1, 1, 1, true)
 	end
 	GameTooltip:Show()
 end
@@ -93,12 +89,12 @@ local UpdatePositions = function()
 	end
 
 	local minimapHeight = Minimap:GetHeight()
-	local buttonHeight = minimapHeight / (NUM_WORLD_RAID_MARKERS + 1)
+	local buttonHeight = minimapHeight / NUM_WORLD_RAID_MARKERS
 
 	Holder:SetPoint("RIGHT", Minimap, "LEFT")
 	Holder:SetSize(buttonWidthExpanded, minimapHeight)
 
-	for index = 1, NUM_WORLD_RAID_MARKERS + 1 do
+	for index = 1, NUM_WORLD_RAID_MARKERS do
 		local button = Holder[index]
 		button:SetPoint("TOPRIGHT", Holder, "TOPRIGHT", 0, (index - 1) * -buttonHeight)
 		button:SetSize(buttonWidthExpanded, buttonHeight)
@@ -121,23 +117,20 @@ local CreateButtons = function()
 		return
 	end
 
-	for i = 1, NUM_WORLD_RAID_MARKERS + 1 do
-		local index = WORLD_RAID_MARKER_ORDER[i] or NUM_WORLD_RAID_MARKERS + 1
+	for i = 1, NUM_WORLD_RAID_MARKERS do
+		local index = WORLD_RAID_MARKER_ORDER[i]
 		local button = CreateFrame("Button", nil, Holder, "SecureActionButtonTemplate")
 
-		if index ~= NUM_WORLD_RAID_MARKERS + 1 then
-			button:SetAttribute("type1", "macro")
-			button:SetAttribute("type2", "macro")
-			button:SetAttribute("macrotext1", "/wm " .. index)
-			button:SetAttribute("macrotext2", "/cwm " .. index)
-		else
-			button:SetAttribute("type1", "macro")
-			button:SetAttribute("type2", "macro")
-			button:SetAttribute("ctrl-type1", "macro")
-			button:SetAttribute("macrotext1", "/cwm all")
-			button:SetAttribute("macrotext2", "/readycheck")
-			button:SetAttribute("ctrl-macrotext1", "/run InitiateRolePoll()")
-		end
+		button:SetAttribute("type1", "macro")
+		button:SetAttribute("macrotext1", "/wm " .. index)
+		button:SetAttribute("type2", "macro")
+		button:SetAttribute("macrotext2", "/cwm " .. index)
+		button:SetAttribute("ctrl-type2", "macro")
+		button:SetAttribute("ctrl-macrotext2", "/cwm all")
+		button:SetAttribute("ctrl-type1", "macro")
+		button:SetAttribute("ctrl-macrotext1", "/readycheck")
+		button:SetAttribute("shift-type1", "macro")
+		button:SetAttribute("shift-macrotext1", "/run InitiateRolePoll()")
 
 		button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
