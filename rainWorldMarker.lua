@@ -62,10 +62,10 @@ local UpdateVisibility = function()
 		return
 	end
 
-	local show
-	local _, locType = IsInInstance()
+	local show = false
+	local isInInstance, locType = IsInInstance()
 
-	if showIn[locType] then
+	if isInInstance and showIn[locType] then
 		show = true
 		if locType == "raid" then
 			show = UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")
