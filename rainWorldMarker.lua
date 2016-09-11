@@ -140,7 +140,7 @@ local CreateButtons = function()
 		button:SetScript("OnLeave", OnLeave)
 
 		button.bg = button:CreateTexture(nil, "BACKGROUND")
-		button.bg:SetTexture(unpack(markerColors[index]))
+		button.bg:SetColorTexture(unpack(markerColors[index]))
 
 		button.id = i
 
